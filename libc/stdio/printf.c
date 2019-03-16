@@ -40,7 +40,36 @@ int printf(const char* restrict format, ...) {
 
 		const char* format_begun_at = format++;
 
-		if (*format == 'c') {
+		if (*format == 'x') {
+			format++;
+			int decimal = va_arg(parameters, int);
+			char s[12];
+			if(!maxrem) {
+				return -1;
+			}
+
+			itoa(decimal, s, 16);
+			if (!print(s, strlen(s))) {
+				return -1;
+			}
+
+			written += strlen(s);
+		} else if (*format == 'd') {
+			format++;
+			int decimal = va_arg(parameters, int);
+			char s[12];
+			if(!maxrem) {
+				return -1;
+			}
+
+			itoa(decimal, s, 10);
+			if (!print(s, strlen(s))) {
+				return -1;
+			}
+
+			written += strlen(s);
+
+		} else if (*format == 'c') {
 			format++;
 			char c = (char) va_arg(parameters, int /* char promotes to int */);
 			if (!maxrem) {
